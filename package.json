@@ -1,0 +1,22 @@
+{
+  "name": "jogo-velha-dfs",
+  "version": "1.0.0",
+  "description": "Jogo da Velha com Busca em Profundidade (DFS) para IA",
+  "main": "servidor.js",
+  "scripts": {
+    "start": "node servidor.js",
+    "console": "node jogo_velha.js",
+    "teste": "node teste_automatizado.js"
+  },
+  "keywords": [
+    "tic-tac-toe",
+    "dfs",
+    "inteligencia-artificial",
+    "interface-web"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.22.2"
+  }
+}

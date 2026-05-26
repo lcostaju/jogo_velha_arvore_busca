@@ -1,0 +1,410 @@
+/* =============================================================================
+   ESTILOS VISUALIZADOR DE ÁRVORE DFS
+   ============================================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: #333;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Header */
+.header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.header h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 0.95em;
+  opacity: 0.9;
+}
+
+/* Main */
+.main {
+  padding: 30px;
+}
+
+/* Control Panel */
+.control-panel {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 2px solid #e9ecef;
+}
+
+.control-group {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.toggle-switch {
+  width: 40px;
+  height: 24px;
+  cursor: pointer;
+}
+
+/* Buttons */
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.95em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Select Input */
+.select-input {
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 0.95em;
+  font-weight: 600;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select-input:hover {
+  border-color: #667eea;
+}
+
+.select-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.label-text {
+  font-weight: 600;
+  color: #333;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+  background: #ecf0f1;
+  color: #333;
+  border: 2px solid #ddd;
+}
+
+.btn-secondary:hover {
+  background: #e0e0e0;
+}
+
+/* Content Grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.game-section,
+.tree-section {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  border: 2px solid #e9ecef;
+}
+
+.game-section h2,
+.tree-section h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.3em;
+  border-bottom: 2px solid #667eea;
+  padding-bottom: 10px;
+}
+
+/* Game Board */
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.cell {
+  width: 60px;
+  height: 60px;
+  background: white;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 1.8em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cell:hover:not(.disabled) {
+  background: #f0f0f0;
+  border-color: #667eea;
+}
+
+.cell.disabled {
+  cursor: not-allowed;
+}
+
+.cell.x {
+  color: #3498db;
+}
+
+.cell.o {
+  color: #e74c3c;
+}
+
+.game-message {
+  text-align: center;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #667eea;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Tree Container */
+.tree-container {
+  background: white;
+  border-radius: 6px;
+  padding: 15px;
+  min-height: 300px;
+  overflow-y: auto;
+  max-height: 500px;
+  border: 1px solid #ddd;
+}
+
+.tree-placeholder {
+  text-align: center;
+  color: #999;
+  padding: 40px 20px;
+}
+
+/* Árvore Visualização */
+.tree-node {
+  margin: 5px 0;
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.85em;
+  font-family: 'Courier New', monospace;
+  border-left: 4px solid #ddd;
+  transition: all 0.2s;
+  cursor: default;
+  user-select: none;
+}
+
+.tree-node.computador-node {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+  color: #1565c0;
+  font-weight: 600;
+}
+
+.tree-node.humano-node {
+  background: #fff3e0;
+  border-left-color: #ff9800;
+  color: #e65100;
+  margin-left: 15px;
+}
+
+.tree-node.vitoria-node {
+  background: #e8f5e9;
+  border-left-color: #4caf50;
+  color: #2e7d32;
+  font-weight: bold;
+}
+
+.tree-node.caminho-node {
+  background: #f3e5f5;
+  border-left-color: #9c27b0;
+  color: #6a1b9a;
+  border: 2px solid #9c27b0;
+  font-weight: bold;
+}
+
+/* Stats Panel */
+.stats-panel {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.stat-box {
+  background: #f8f9fa;
+  border: 2px solid #e9ecef;
+  border-radius: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-weight: 600;
+  color: #666;
+}
+
+.stat-value {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #667eea;
+  font-family: 'Courier New', monospace;
+}
+
+/* Legend */
+.legend {
+  background: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  border: 2px solid #e9ecef;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.node {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+.node.computador-node {
+  background: #e3f2fd;
+  border: 2px solid #2196f3;
+}
+
+.node.humano-node {
+  background: #fff3e0;
+  border: 2px solid #ff9800;
+}
+
+.node.vitoria-node {
+  background: #e8f5e9;
+  border: 2px solid #4caf50;
+}
+
+.node.caminho-node {
+  background: #f3e5f5;
+  border: 2px solid #9c27b0;
+}
+
+/* Footer */
+.footer {
+  background: #f8f9fa;
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid #eee;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .control-panel {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .legend {
+    flex-direction: column;
+  }
+}
+
+/* Scrollbar */
+.tree-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tree-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.tree-container::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.tree-container::-webkit-scrollbar-thumb:hover {
+  background: #764ba2;
+}

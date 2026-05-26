@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizador de Árvore DFS - Jogo da Velha</title>
+  <link rel="stylesheet" href="style-tree.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>🌳 Visualizador de Árvore DFS</h1>
+      <p class="subtitle">Veja em tempo real as possibilidades exploradas pelo algoritmo</p>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+      <!-- Control Panel -->
+      <div class="control-panel">
+        <div class="control-group">
+          <label for="rastreamentoToggle" class="toggle-label">
+            <input type="checkbox" id="rastreamentoToggle" class="toggle-switch">
+            <span class="toggle-text">Ativar Rastreamento da Árvore</span>
+          </label>
+        </div>
+        
+        <div class="control-group">
+          <label for="quemComeca" class="label-text">👤 Quem começa:</label>
+          <select id="quemComeca" class="select-input">
+            <option value="humano">🧑 Humano</option>
+            <option value="computador">🤖 Computador</option>
+          </select>
+        </div>
+        
+        <div class="control-group">
+          <button id="jogarBtn" class="btn btn-primary">🎮 Novo Jogo</button>
+          <button id="limparBtn" class="btn btn-secondary">🗑️ Limpar Árvore</button>
+        </div>
+      </div>
+
+      <!-- Game and Tree Container -->
+      <div class="content-grid">
+        <!-- Game Board (Left) -->
+        <div class="game-section">
+          <h2>Jogo</h2>
+          <div class="board" id="tabuleiro"></div>
+          <div id="mensagemJogo" class="game-message">Jogo não iniciado</div>
+        </div>
+
+        <!-- Tree Visualization (Right) -->
+        <div class="tree-section">
+          <h2>Árvore de Busca</h2>
+          <div id="treeContainer" class="tree-container">
+            <p class="tree-placeholder">Faça uma jogada para visualizar a árvore de busca</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistics Panel -->
+      <div class="stats-panel">
+        <div class="stat-box">
+          <span class="stat-label">Nós Explorados:</span>
+          <span id="nosExplorados" class="stat-value">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Profundidade:</span>
+          <span id="profundidade" class="stat-value">0</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Movimento Escolhido:</span>
+          <span id="movimentoEscolhido" class="stat-value">-</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Status:</span>
+          <span id="statusRastreamento" class="stat-value">Inativo</span>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div class="legend">
+        <div class="legend-item">
+          <div class="node computador-node"></div>
+          <span>Movimento do Computador</span>
+        </div>
+        <div class="legend-item">
+          <div class="node humano-node"></div>
+          <span>Movimento do Humano</span>
+        </div>
+        <div class="legend-item">
+          <div class="node caminho-node"></div>
+          <span>Caminho Escolhido</span>
+        </div>
+        <div class="legend-item">
+          <div class="node vitoria-node"></div>
+          <span>Vitória Encontrada</span>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>IFTM • Inteligência Computacional • Busca em Profundidade (DFS)</p>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="cliente-tree.js"></script>
+</body>
+</html>
