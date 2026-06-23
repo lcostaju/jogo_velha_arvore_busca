@@ -9,6 +9,7 @@ let ultimoRastreamento = null;
 // Elementos do DOM
 const rastreamentoToggle = document.getElementById('rastreamentoToggle');
 const quemComecaSelect = document.getElementById('quemComeca');
+const algoritmoSelect = document.getElementById('algoritmoSelect');
 const jogarBtn = document.getElementById('jogarBtn');
 const limparBtn = document.getElementById('limparBtn');
 const tabuleiro = document.getElementById('tabuleiro');
@@ -17,6 +18,9 @@ const treeContainer = document.getElementById('treeContainer');
 const nosExplorados = document.getElementById('nosExplorados');
 const profundidade = document.getElementById('profundidade');
 const movimentoEscolhido = document.getElementById('movimentoEscolhido');
+const algoritmoAtivo = document.getElementById('algoritmoAtivo');
+const valorMinimaxBox = document.getElementById('valorMinimaxBox');
+const valorMinimax = document.getElementById('valorMinimax');
 const statusRastreamento = document.getElementById('statusRastreamento');
 
 // =============================================================================
@@ -33,6 +37,13 @@ async function iniciarJogo() {
       await fetch('/api/rastreamento/desativar');
       rastreamentoAtivo = false;
     }
+
+    // Definir o algoritmo de IA selecionado
+    await fetch('/api/algoritmo/definir', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ algoritmo: algoritmoSelect.value })
+    });
 
     // Obter escolha de quem começa
     const quemComeca = quemComecaSelect.value;
@@ -93,6 +104,8 @@ function atualizarStatus() {
     statusRastreamento.textContent = 'Inativo';
     statusRastreamento.style.color = '#999';
   }
+
+  algoritmoAtivo.textContent = algoritmoSelect.value === 'minimax' ? 'Minimax' : 'DFS';
 }
 
 // =============================================================================
@@ -177,6 +190,10 @@ function renderizarArvore() {
         texto = `[${no.tipo}]`;
       }
 
+      if (no.valor !== undefined && no.valor !== null) {
+        texto += ` | valor: ${no.valor}`;
+      }
+
       // Adicionar indentação
       nodeEl.style.marginLeft = `${no.profundidade * 15}px`;
 
@@ -208,6 +225,18 @@ function atualizarEstatisticas() {
   nosExplorados.textContent = total;
   profundidade.textContent = profMax;
   movimentoEscolhido.textContent = caminho;
+  algoritmoAtivo.textContent = algoritmoSelect.value === 'minimax' ? 'Minimax' : 'DFS';
+
+  const noEscolhido = (ultimoRastreamento.nos || []).find(
+    n => n.tipo === 'computador' && n.profundidade === 0 && n.posicao === caminho && n.valor !== undefined
+  );
+
+  if (noEscolhido) {
+    valorMinimaxBox.style.display = '';
+    valorMinimax.textContent = noEscolhido.valor;
+  } else {
+    valorMinimaxBox.style.display = 'none';
+  }
 }
 
 // =============================================================================
@@ -224,12 +253,18 @@ quemComecaSelect.addEventListener('change', () => {
   iniciarJogo();
 });
 
+algoritmoSelect.addEventListener('change', () => {
+  // Iniciar novo jogo quando mudar o algoritmo de IA
+  iniciarJogo();
+});
+
 jogarBtn.addEventListener('click', iniciarJogo);
 limparBtn.addEventListener('click', () => {
   treeContainer.innerHTML = '<p class="tree-placeholder">Faça uma jogada para visualizar a árvore de busca</p>';
   nosExplorados.textContent = '0';
   profundidade.textContent = '0';
   movimentoEscolhido.textContent = '-';
+  valorMinimaxBox.style.display = 'none';
   ultimoRastreamento = null;
 });
 

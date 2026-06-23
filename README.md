@@ -1,6 +1,6 @@
-# 🎮 Jogo da Velha com Visualizador de Árvore DFS
+# 🎮 Jogo da Velha com Visualizador de Árvore de Busca
 
-Um **Jogo da Velha interativo** com visualização em tempo real de uma **Árvore de Busca em Profundidade (DFS)** para demonstrar como o algoritmo explora todas as possibilidades do jogo.
+Um **Jogo da Velha interativo** com visualização em tempo real da árvore de busca explorada pela IA, com **dois algoritmos intercambiáveis**: **Busca em Profundidade (DFS)** e **Minimax**.
 
 ## 🚀 Como Usar
 
@@ -25,7 +25,13 @@ Abra: **http://localhost:3000**
 - **🧑 Humano** - Você começa
 - **🤖 Computador** - Computador começa automaticamente
 
-### 🌳 Visualizador de Árvore DFS
+### 🧠 Algoritmo da IA
+- **🌲 DFS (Busca em Profundidade)** - Busca por um caminho que leve à vitória garantida do computador, com backtracking. Não pontua os estados nem bloqueia ativamente o adversário.
+- **🧠 Minimax** - Alterna entre maximizar (computador) e minimizar (humano), pontuando estados terminais (`10 - profundidade` para vitória do computador, `profundidade - 10` para vitória do humano, `0` para empate). Por considerar a jogada ótima do adversário, também bloqueia ameaças do humano.
+
+Alterne entre os dois pelo seletor "Algoritmo da IA" antes ou durante o jogo — a troca reinicia a partida atual.
+
+### 🌳 Visualizador de Árvore de Busca
 - **Ativar Rastreamento** - Marca a caixa para ver a árvore durante o jogo
 - **Cores dos Nós**:
   - 🔵 Azul = Movimento do Computador
@@ -37,6 +43,8 @@ Abra: **http://localhost:3000**
 - **Nós Explorados** - Quantos estados foram analisados
 - **Profundidade** - Nível máximo de busca
 - **Movimento Escolhido** - Qual posição o computador escolheu
+- **Algoritmo** - Qual algoritmo está ativo (DFS ou Minimax)
+- **Valor (Minimax)** - Pontuação minimax do movimento escolhido (só aparece quando o Minimax está selecionado)
 - **Status** - Se o rastreamento está ativo/inativo
 
 ### 🎮 Como Jogar
@@ -51,16 +59,21 @@ Abra: **http://localhost:3000**
 
 ```
 public/
-├── index.html          # Página principal
-├── cliente.js          # Lógica do cliente
-└── style.css           # Estilos
+├── index.html               # Página principal
+├── tree.html                # Página alternativa (visualizador)
+├── cliente.js               # Lógica do cliente (index.html)
+├── cliente-tree.js          # Lógica do cliente (tree.html)
+└── style.css / style-tree.css  # Estilos
 
-servidor.js             # API Express.js
-logica_jogo.js          # Algoritmo DFS
-logica_rastreada.js     # Algoritmo DFS com rastreamento
-rastreador_dfs.js       # Rastreador
-package.json            # Dependências
-README.md               # Este arquivo
+servidor.js                  # API Express.js
+tabuleiro_utils.js            # Funções de tabuleiro compartilhadas (vitória/empate/movimentos)
+logica_jogo.js                # Algoritmo DFS
+logica_rastreada.js           # Algoritmo DFS com rastreamento
+logica_minimax.js             # Algoritmo Minimax
+logica_minimax_rastreada.js   # Algoritmo Minimax com rastreamento
+rastreador_dfs.js             # Rastreador de árvore (reaproveitado por DFS e Minimax)
+package.json                  # Dependências
+README.md                     # Este arquivo
 ```
 
 ---
@@ -83,4 +96,4 @@ lsof -ti:3000 | xargs kill -9
 
 ---
 
-**IFTM** • Inteligência Computacional • Busca em Profundidade (DFS)
+**IFTM** • Inteligência Computacional • Busca em Profundidade (DFS) e Minimax

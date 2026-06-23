@@ -17,18 +17,19 @@ class RastreadorDFS {
     this.ativo = true;
   }
 
-  registrarNo(tipo, posicao, profundidade, resultado) {
+  registrarNo(tipo, posicao, profundidade, resultado, valor) {
     const noId = this.no++;
-    
+
     const noInfo = {
       id: noId,
       tipo: tipo,  // 'computador' ou 'humano'
       posicao: posicao,
       profundidade: profundidade,
       resultado: resultado,  // true/false/null
+      valor: valor,  // pontuação minimax do nó (undefined quando não se aplica, ex: DFS)
       timestamp: Date.now()
     };
-    
+
     this.arvore.push(noInfo);
     return noId;
   }

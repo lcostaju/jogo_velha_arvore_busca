@@ -32,7 +32,15 @@
             <option value="computador">🤖 Computador</option>
           </select>
         </div>
-        
+
+        <div class="control-group">
+          <label for="algoritmoSelect" class="label-text">🧠 Algoritmo da IA:</label>
+          <select id="algoritmoSelect" class="select-input">
+            <option value="dfs">🌲 DFS (Busca em Profundidade)</option>
+            <option value="minimax">🧠 Minimax</option>
+          </select>
+        </div>
+
         <div class="control-group">
           <button id="jogarBtn" class="btn btn-primary">🎮 Novo Jogo</button>
           <button id="limparBtn" class="btn btn-secondary">🗑️ Limpar Árvore</button>
@@ -70,6 +78,14 @@
         <div class="stat-box">
           <span class="stat-label">Movimento Escolhido:</span>
           <span id="movimentoEscolhido" class="stat-value">-</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-label">Algoritmo:</span>
+          <span id="algoritmoAtivo" class="stat-value">DFS</span>
+        </div>
+        <div class="stat-box" id="valorMinimaxBox" style="display: none;">
+          <span class="stat-label">Valor (Minimax):</span>
+          <span id="valorMinimax" class="stat-value">-</span>
         </div>
         <div class="stat-box">
           <span class="stat-label">Status:</span>
