@@ -61,6 +61,24 @@ Uma forma curta de explicar em aula:
 
 > A DFS pergunta: "Existe algum caminho, explorando profundamente as possibilidades, em que o computador consegue vencer?"
 
+### Por que a DFS pode fazer jogadas ruins neste projeto
+
+E comum perceber que, ao selecionar DFS, o computador nao tenta "fechar" ou bloquear algumas ameacas do humano. Isso acontece porque a DFS implementada aqui nao foi projetada como uma estrategia completa de Jogo da Velha.
+
+Ela procura um caminho que possa levar a uma vitoria do computador, mas nao compara todas as jogadas possiveis com uma pontuacao estrategica. Tambem nao trata o humano como um adversario otimo que sempre escolhera a resposta mais perigosa. Assim, a DFS pode escolher uma jogada que parece boa em algum ramo da arvore, mas que deixa uma ameaca imediata sem bloqueio.
+
+Em outras palavras:
+
+- a DFS explora caminhos;
+- a DFS deste projeto procura uma possibilidade de vitoria;
+- ela nao calcula o "preco" de deixar o humano vencer na proxima jogada;
+- ela nao escolhe necessariamente a jogada mais segura;
+- por isso, o humano pode ganhar com facilidade em algumas situacoes.
+
+Esse comportamento nao e um erro de execucao da interface: e uma limitacao do uso da DFS como algoritmo de decisao para um jogo adversarial.
+
+Para jogar bem Jogo da Velha, o algoritmo mais adequado neste projeto e o Minimax, porque ele avalia vitoria, derrota e empate, e considera que o humano tentara minimizar o resultado do computador. Por isso o Minimax tende a bloquear ameacas quando nao bloquear levaria a uma derrota.
+
 ### Pontos importantes sobre DFS
 
 - Explora caminhos profundamente antes de testar todos os irmaos.
@@ -69,6 +87,7 @@ Uma forma curta de explicar em aula:
 - No projeto, busca uma vitoria possivel para o computador.
 - Nao calcula uma nota para cada jogada.
 - Nao modela de forma completa que o humano sempre escolhera a melhor resposta.
+- Pode deixar de bloquear uma ameaca imediata do humano.
 
 ## 3. Minimax
 
@@ -141,6 +160,7 @@ Isso e importante para interpretar a tela:
 | Avalia empate | Como caminho nao vencedor | Como valor `0` |
 | Considera adversario otimo | Nao completamente | Sim |
 | Bloqueia ameacas do humano | Nao necessariamente | Sim, quando isso melhora o resultado |
+| Qualidade como jogador | Pode jogar mal em situacoes simples | Joga de forma mais estrategica |
 | Melhor uso didatico | Mostrar exploracao e backtracking | Mostrar tomada de decisao estrategica |
 | Estatistica extra | Nao tem valor Minimax | Mostra valor da jogada escolhida |
 
@@ -204,6 +224,11 @@ Na DFS, o campo `Valor (Minimax)` nao aparece, porque a DFS deste projeto nao po
 Interpretacao didatica:
 
 > A DFS esta explorando caminhos. Ela nao esta dizendo "esta jogada vale 8" ou "esta jogada vale 0". Ela esta procurando uma rota que satisfaca a condicao desejada: vitoria do computador.
+
+Por isso, durante a demonstracao, e valido mostrar uma partida em que o humano vence facilmente contra a DFS. Esse exemplo ajuda a separar duas ideias:
+
+- buscar em uma arvore nao e o mesmo que tomar a melhor decisao estrategica;
+- para jogos contra adversario, a busca precisa de uma funcao de avaliacao ou de uma regra de decisao adversarial, como ocorre no Minimax.
 
 ## 7. Visualizacao quando o metodo e Minimax
 
@@ -307,6 +332,8 @@ Interpretacao:
 A DFS e o Minimax exploram arvores de possibilidades, mas respondem perguntas diferentes.
 
 A DFS e util para mostrar como um algoritmo percorre caminhos em profundidade, desfaz escolhas e tenta alternativas. Neste projeto, ela procura uma sequencia que leve a vitoria do computador.
+
+Por causa dessa escolha didatica, a DFS pode nao bloquear ameacas imediatas do humano e pode fazer jogadas ruins. Isso nao significa que a busca em profundidade "nao funciona"; significa que, sozinha, ela nao modela bem a tomada de decisao em jogos adversariais.
 
 O Minimax e mais adequado para jogos adversariais, porque considera que o oponente tambem joga bem. Ele atribui valores aos finais possiveis e escolhe a jogada que maximiza o resultado do computador, assumindo que o humano tentara minimiza-lo.
 
